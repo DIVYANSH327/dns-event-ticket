@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DNS Event Ticket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body style="font-family: Arial; text-align:center; padding:40px;">
+
+  <h2>DNS Event Ticket</h2>
+  <p>Pay ₹1 to get your ticket</p>
+
+  <button onclick="pay()" style="padding:12px 20px; font-size:16px;">
+    Pay Now
+  </button>
+
+<script>
+async function pay() {
+  try {
+    const res = await fetch(
+      "https://dns-event-ticket.onrender.com/create-order",
+      { method: "POST" }
+    );
+
+    const order = await res.json();
+
+    const options = {
+      key: "rzp_test_RxssgxrlWgRKta",
+      amount: order.amount,
+      currency: "INR",
+      name: "DNS",
+      description: "Event Ticket ₹1",
+      order_id: order.id,
+      handler: function (response) {
+        alert(
+          "Payment Successful 🎉\nPayment ID: " +
+          response.razorpay_payment_id
+        );
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+}
+</script>
+
+</body>
+</html>
