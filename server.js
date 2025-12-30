@@ -7,6 +7,7 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static("public"));
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
