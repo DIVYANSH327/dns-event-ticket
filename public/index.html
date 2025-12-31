@@ -1,18 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>DNS Event Ticket</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <title>DNS Event</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Razorpay -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Apple-like font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s ease forwards;
+    }
+
+    .hero p {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #aaa;
+      max-width: 600px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    /* Button */
+    .pay-btn {
+      margin-top: 40px;
+      padding: 14px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #000;
+      background: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 0.6s;
+    }
+
+    .pay-btn:hover {
+      transform: scale(1.05);
+      background: #e5e5e5;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Glass effect on scroll section */
+    .glass {
+      margin-top: 120px;
+      padding: 40px;
+      max-width: 900px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+    }
+
+    .glass h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .glass p {
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align:center; padding:40px;">
 
-  <h2>DNS Event Ticket</h2>
-  <p>Pay ₹1 to get your ticket</p>
+<body>
 
-  <button onclick="pay()" style="padding:12px 20px; font-size:16px;">
-    Pay Now
-  </button>
+  <section class="hero">
+    <h1>DNS Tech Event</h1>
+    <p>
+      A premium tech experience.<br>
+      One ticket. One rupee. Seamless entry.
+    </p>
+
+    <button class="pay-btn" onclick="pay()">
+      Get Ticket for ₹1
+    </button>
+
+    <div class="glass">
+      <h2>Designed for simplicity.</h2>
+      <p>
+        Pay securely via UPI. Instantly receive your ticket.
+        Clean design. Smooth experience. Just like it should be.
+      </p>
+    </div>
+  </section>
+
+  <div class="footer">
+    © 2025 DNS Events. All rights reserved.
+  </div>
 
 <script>
 async function pay() {
@@ -29,21 +164,17 @@ async function pay() {
       amount: order.amount,
       currency: "INR",
       name: "DNS",
-      description: "Event Ticket ₹1",
+      description: "DNS Tech Event Ticket",
       order_id: order.id,
+      theme: { color: "#000000" },
       handler: function (response) {
-        alert(
-          "Payment Successful 🎉\nPayment ID: " +
-          response.razorpay_payment_id
-        );
+        alert("Payment Successful 🎉\nPayment ID: " + response.razorpay_payment_id);
       }
     };
 
-    const rzp = new Razorpay(options);
-    rzp.open();
-
+    new Razorpay(options).open();
   } catch (err) {
-    alert("Error: " + err.message);
+    alert("Something went wrong");
   }
 }
 </script>
