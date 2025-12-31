@@ -28,19 +28,14 @@ app.get("/", (req, res) => {
 
 /* CREATE ORDER */
 app.post("/create-order", async (req, res) => {
-  try {
-    const order = await razorpay.orders.create({
-      amount: 100,
-      currency: "INR",
-      receipt: "dns_event_ticket",
-    });
-    res.json(order);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+  const { name, age, mobile, whatsapp } = req.body;
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+  console.log("New Attendee:", name, age, mobile, whatsapp);
+
+  const order = await razorpay.orders.create({
+    amount: 100,
+    currency: "INR",
+  });
+
+  res.json(order);
 });
