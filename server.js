@@ -50,3 +50,41 @@ app.post("/create-order", async (req, res) => {
 
   res.json(order);
 });
+const tickets = [];
+
+app.post("/verify-payment", (req, res) => {
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    user
+  } = req.body;
+
+  const crypto = require("crypto");
+  const sign = razorpay_order_id + "|" + razorpay_payment_id;
+
+  const expectedSign = crypto
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    .update(sign)
+    .digest("hex");
+
+  if (expectedSign !== razorpay_signature) {
+    return res.status(400).json({ success: false });
+  }
+
+  // ✅ Create ticket
+  const ticket = {
+    id: "TICKET-" + Date.now(),
+    name: user.name,
+    mobile: user.mobile,
+    whatsapp: user.whatsapp,
+    paymentId: razorpay_payment_id
+  };
+
+  tickets.push(ticket);
+
+  res.json({
+    success: true,
+    ticket
+  });
+});
