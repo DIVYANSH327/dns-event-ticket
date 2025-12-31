@@ -235,7 +235,37 @@ async function pay() {
     alert("Please fill all details");
     return;
   }
+handler: async function (response) {
+  const verify = await fetch(
+    "https://dns-event-ticket.onrender.com/verify-payment",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+        user: {
+          name,
+          age,
+          mobile,
+          whatsapp
+        }
+      })
+    }
+  );
 
+  const result = await verify.json();
+
+  if (result.success) {
+    alert(
+      "🎟 TICKET CONFIRMED\n" +
+      "Ticket ID: " + result.ticket.id
+    );
+  } else {
+    alert("Payment verification failed");
+  }
+  }
   // Create order
   const res = await fetch(
     "https://dns-event-ticket.onrender.com/create-order",
