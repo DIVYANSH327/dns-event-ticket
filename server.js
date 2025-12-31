@@ -1,3 +1,5 @@
+// In-memory store (use DB later)
+const attendees = [];
 app.get("/admin-data", (req, res) => {
   res.json(attendees);
 });
