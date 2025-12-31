@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin – DNS Event</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #111;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #333;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: #222;
+    }
+    tr:hover {
+      background: #1a1a1a;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>🎟 Admin Panel – DNS Event</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Mobile</th>
+      <th>WhatsApp</th>
+      <th>Payment ID</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody id="data"></tbody>
+</table>
+
+<script>
+fetch("/admin-data")
+  .then(res => res.json())
+  .then(data => {
+    const tbody = document.getElementById("data");
+    data.forEach(user => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${user.name}</td>
+        <td>${user.age}</td>
+        <td>${user.mobile}</td>
+        <td>${user.whatsapp}</td>
+        <td>${user.paymentId}</td>
+        <td>${user.time}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  });
+</script>
+
+</body>
+</html>
