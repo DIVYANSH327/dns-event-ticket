@@ -1,5 +1,11 @@
 // In-memory store (use DB later)
 const attendees = [];
+app.use("/admin.html", (req, res, next) => {
+  const auth = req.headers.authorization;
+  if (auth === "Bearer dnsadmin123") return next();
+  res.status(401).send("Unauthorized");
+});
+
 app.get("/admin-data", (req, res) => {
   res.json(attendees);
 });
